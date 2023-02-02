@@ -69,4 +69,19 @@ source "vmware-iso" "debian11" {
 
 build {
   sources = ["source.vmware-iso.debian11"]
+
+  provisioner "shell" {
+    execute_command = "echo 'packer' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"
+    script          = "scripts/boundary_vault.sh"
+  }
+
+  provisioner "shell" {
+    execute_command = "echo 'packer' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"
+    script          = "scripts/docker.sh"
+  }
+
+  provisioner "shell" {
+    execute_command = "echo 'packer' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"
+    script          = "scripts/setup.sh"
+  }
 }
