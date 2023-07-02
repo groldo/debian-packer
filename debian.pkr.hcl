@@ -38,6 +38,11 @@ variable "vm_name" {
   default = "debian-12-latest"
 }
 
+variable "output_directory" {
+  type    = string
+  default = "output"
+}
+
 source "vmware-iso" "debian" {
   boot_command     = ["<esc>auto preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg<enter>"]
   boot_wait        = "${var.boot_wait}"
@@ -51,7 +56,7 @@ source "vmware-iso" "debian" {
   iso_checksum     = "${var.iso_checksum}"
   iso_url          = "${var.iso_url}"
   shutdown_command = "echo '${var.username}'|sudo -S shutdown -P now"
-  username     = "${var.username}"
+  ssh_username     = "${var.username}"
   ssh_password     = "${var.username}"
   ssh_port         = 22
   ssh_timeout      = "30m"
@@ -61,7 +66,7 @@ source "vmware-iso" "debian" {
     numvcpus            = "${var.numvcpus}"
     "virtualHW.version" = "14"
   }
-  output_directory = "output"
+  output_directory = "${var.output_directory}"
 }
 
 build {
