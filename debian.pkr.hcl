@@ -11,12 +11,12 @@ variable "disk_size" {
 
 variable "iso_checksum" {
   type    = string
-  default = "e482910626b30f9a7de9b0cc142c3d4a079fbfa96110083be1d0b473671ce08d"
+  default = "sha512:b462643a7a1b51222cd4a569dad6051f897e815d10aa7e42b68adc8d340932d861744b5ea14794daa5cc0ccfa48c51d248eda63f150f8845e8055d0a5d7e58e6"
 }
 
 variable "iso_url" {
   type    = string
-  default = "https://cdimage.debian.org/cdimage/release/11.6.0/amd64/iso-cd/debian-11.6.0-amd64-netinst.iso"
+  default = "https://cdimage.debian.org/cdimage/release/12.0.0/amd64/iso-cd/debian-12.0.0-amd64-netinst.iso"
 }
 
 variable "memsize" {
@@ -41,10 +41,10 @@ variable "ssh_username" {
 
 variable "vm_name" {
   type    = string
-  default = "debian-11.0.0-amd64"
+  default = "debian-12-latest"
 }
 
-source "vmware-iso" "debian11" {
+source "vmware-iso" "debian" {
   boot_command     = ["<esc>auto preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg<enter>"]
   boot_wait        = "${var.boot_wait}"
   disk_size        = "${var.disk_size}"
@@ -68,7 +68,7 @@ source "vmware-iso" "debian11" {
 }
 
 build {
-  sources = ["source.vmware-iso.debian11"]
+  sources = ["source.vmware-iso.debian"]
 
   provisioner "shell" {
     execute_command = "echo 'packer' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"
