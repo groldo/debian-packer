@@ -28,7 +28,7 @@ variable "numvcpus" {
   default = "1"
 }
 
-variable "ssh_username" {
+variable "username" {
   type    = string
   default = "packer"
 }
@@ -46,13 +46,13 @@ source "vmware-iso" "debian" {
   guest_os_type    = "debian10-64"
   headless         = false
   http_content     = {
-    "/preseed.cfg"  = templatefile("${path.root}/http/preseed.cfg", {"user" = "${var.ssh_username}"})
+    "/preseed.cfg"  = templatefile("${path.root}/http/preseed.cfg", {"user" = "${var.username}"})
   }
   iso_checksum     = "${var.iso_checksum}"
   iso_url          = "${var.iso_url}"
-  shutdown_command = "echo '${var.ssh_username}'|sudo -S shutdown -P now"
-  ssh_username     = "${var.ssh_username}"
-  ssh_password     = "${var.ssh_username}"
+  shutdown_command = "echo '${var.username}'|sudo -S shutdown -P now"
+  username     = "${var.username}"
+  ssh_password     = "${var.username}"
   ssh_port         = 22
   ssh_timeout      = "30m"
   vm_name          = "${var.vm_name}"
@@ -68,17 +68,17 @@ build {
   sources = ["source.vmware-iso.debian"]
 
   provisioner "shell" {
-    execute_command = "echo '${var.ssh_username}' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"
+    execute_command = "echo '${var.username}' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"
     script          = "scripts/boundary_vault.sh"
   }
 
   provisioner "shell" {
-    execute_command = "echo '${var.ssh_username}' | {{ .Vars }} sudo -S -E bash '{{ .Path }}' ${var.ssh_username}"
+    execute_command = "echo '${var.username}' | {{ .Vars }} sudo -S -E bash '{{ .Path }}' ${var.username}"
     script          = "scripts/docker.sh"
   }
 
   provisioner "shell" {
-    execute_command = "echo '${var.ssh_username}' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"
+    execute_command = "echo '${var.username}' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"
     script          = "scripts/setup.sh"
   }
 }
