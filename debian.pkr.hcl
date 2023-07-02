@@ -61,6 +61,7 @@ source "vmware-iso" "debian" {
     numvcpus            = "${var.numvcpus}"
     "virtualHW.version" = "14"
   }
+  output_directory = "output"
 }
 
 build {
@@ -72,7 +73,7 @@ build {
   }
 
   provisioner "shell" {
-    execute_command = "echo '${var.ssh_username}' | {{ .Vars }} sudo -S -E bash '{{ .Path }}'"
+    execute_command = "echo '${var.ssh_username}' | {{ .Vars }} sudo -S -E bash '{{ .Path }}' ${var.ssh_username}"
     script          = "scripts/docker.sh"
   }
 
