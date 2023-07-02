@@ -61,9 +61,9 @@ source "vmware-iso" "debian" {
   ssh_port         = 22
   ssh_timeout      = "30m"
   vm_name          = "${var.vm_name}"
+  memory           = "1024"
+  cpus             = "1"
   vmx_data = {
-    memsize             = "${var.memsize}"
-    numvcpus            = "${var.numvcpus}"
     "virtualHW.version" = "14"
   }
   output_directory = "${var.output_directory}"
