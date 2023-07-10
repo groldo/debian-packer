@@ -2,6 +2,7 @@
 
 apt-get update
 apt-get install -y vim \
+					ufw \
 					zsh \
 					gnome-core \
 					openvpn \
